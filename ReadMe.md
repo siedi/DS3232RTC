@@ -1,4 +1,9 @@
 # Arduino DS3232RTC Library v1.0 #
+## Modifications compared to original Lib from Jack Christensen:
+ * added isAlarm method to check if alarm is set but without a reset of the alarm
+ 
+## Original Readme:
+
 https://github.com/JChristensen/DS3232RTC
 ReadMe file  
 Jack Christensen Mar 2013

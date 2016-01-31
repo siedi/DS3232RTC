@@ -214,7 +214,7 @@ void DS3232RTC::setAlarm(ALARM_TYPES_t alarmType, byte seconds, byte minutes, by
     if (alarmType & 0x01) seconds |= _BV(A1M1);
     if (alarmType & 0x02) minutes |= _BV(A1M2);
     if (alarmType & 0x04) hours |= _BV(A1M3);
-    if (alarmType & 0x10) hours |= _BV(DYDT);
+    if (alarmType & 0x10) daydate |= _BV(DYDT);
     if (alarmType & 0x08) daydate |= _BV(A1M4);
     
     if ( !(alarmType & 0x80) ) {    //alarm 1
@@ -279,6 +279,18 @@ bool DS3232RTC::alarm(byte alarmNumber)
     }
 }
 
+/*----------------------------------------------------------------------*
+ * Returns true or false depending on whether the given alarm has been  *
+ * triggered                                                            *
+ *----------------------------------------------------------------------*/
+bool DS3232RTC::isAlarm(byte alarmNumber)
+{
+    uint8_t statusReg, mask;
+    
+    statusReg = readRTC(RTC_STATUS);
+    mask = _BV(A1F) << (alarmNumber - 1);
+    return statusReg & mask;
+}
 /*----------------------------------------------------------------------*
  * Enable or disable the square wave output.                            *
  * Use a value from the SQWAVE_FREQS_t enumeration for the parameter.   *
